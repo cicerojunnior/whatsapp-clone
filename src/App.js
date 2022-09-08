@@ -2,8 +2,9 @@ import React from "react"
 import './App.css'
 
 import DonutLargeIcon from '@mui/icons-material/DonutLarge'
-import ChatIcon from '@mui/icons-material/ChatIcon'
-import MoreVertIcon from '@mui/icons-material/MoreVertIcon'
+import ChatIcon from '@mui/icons-material/Chat'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import SearchIcon from '@mui/icons-material/Search'
 
 export default () => {
     return (
@@ -25,7 +26,7 @@ export default () => {
                 </header>
 
                 <div className="search">
-                    ...
+                    
                 </div>
 
                 <div className="chatlist">
