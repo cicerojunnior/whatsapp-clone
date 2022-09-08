@@ -26,7 +26,10 @@ export default () => {
                 </header>
 
                 <div className="search">
-                    
+                    <div className="search--input">
+                        <SearchIcon style={{color: '#919191'}} fontSize="small" />
+                        <input type="search" placeholder="Pesquisar ou começar uma conversa" />
+                    </div>
                 </div>
 
                 <div className="chatlist">
