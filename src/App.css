@@ -12,7 +12,7 @@ body {
     background-color: #EDEDED;
 }
 .sidebar {
-    width: 35%;
+    width: 40%;
     max-width: 450px;
     display: flex;
     flex-direction: column;
@@ -50,9 +50,9 @@ header {
      padding: 5px 15px;
 }
 .search--input {
-    background-color: #FFF;
+    background-color: #EDEDED;
     height: 40px;
-    border-radius: 20px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     padding: 0 10px;
@@ -66,13 +66,23 @@ header {
     margin-left: 10px;
 }
 
+.chatList {
+    flex: 1;
+    background-color: #FFF;
+    overflow-y: auto;
+}
+.chatList::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+.chatList::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+}
 
 
 
 
 
-
-
-.contentarea {
+.contentArea {
 
 }
