@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import './App.css'
 
 import ChatListItem from './components/ChatList/index'
+import ChatIntro from "./components/ChatIntro"
 
 import DonutLargeIcon from '@mui/icons-material/DonutLarge'
 import ChatIcon from '@mui/icons-material/Chat'
@@ -46,7 +47,7 @@ export default () => {
                 </div>
             </div>
             <div className="contentArea">
-                ...
+                <ChatIntro />
             </div>
         </div>
     )
