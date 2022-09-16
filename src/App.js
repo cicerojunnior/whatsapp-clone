@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import './App.css'
 
-import ChatListItem from './components/ChatList/index'
+import ChatListItem from './components/ChatList'
 import ChatIntro from "./components/ChatIntro"
 import ChatWindow from "./components/ChatWindow"
 
@@ -49,6 +49,7 @@ export default () => {
                     {chatlist.map((item, key) => (
                         <ChatListItem
                             key={key}
+                            data={item}
                             active={activeChat.chatId === chatlist[key].chatId}
                             onClick={()=>setActiveChat(chatlist[key])}
                         />
