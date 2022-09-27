@@ -1,11 +1,11 @@
-import React from "react"
+import React, { useState } from "react"
 import EmojiPicker from "emoji-picker-react"
 import './ChatWindow.css'
 
 import Search from "@mui/icons-material/Search"
 import MoreVert from "@mui/icons-material/MoreVert"
 import AttachFile from "@mui/icons-material/AttachFile" 
-import InsertEmoticon from '@mui/icons-material/EmojiEmotions'
+import InsertEmoticonIcon from '@mui/icons-material/EmojiEmotions'
 import CloseIcon from '@mui/icons-material/Close'
 import SendIcon from '@mui/icons-material/Send'
 import MicIcon from '@mui/icons-material/Mic'
@@ -14,8 +14,43 @@ import StickyIcon from '@mui/icons-material/StickyNote2'
 
 export default () => {
 
-    const handleEmojiClick =  () => {
-        
+    let recognition = null
+    let speechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+    if (speechRecognition !== undefined) {
+        recognition = new speechRecognition()
+    }
+
+    const [emojiOpen, setEmojiOpen] = useState(false)
+    const [text, setText] = useState('')
+    const [listening, setListening] = useState(false)
+
+    const handleEmojiClick =  (e, emojiObject) => {
+        setText(text + emojiObject.emoji)
+    }
+
+    const handleOpenEmoji = () => {
+        setEmojiOpen(true)
+    }
+    const handleCloseEmoji = () => {
+        setEmojiOpen(false)
+    }
+
+    const handleMicClick = () => {
+        if(recognition !== null) {
+            recognition.onstart = () => {
+                setListening(true)
+            }
+            recognition.onend = () => {
+                setListening(false)
+            }
+            recognition.onresult = (e) => {
+                setText(e.results[0][0].transcript)
+            }
+            recognition.start()
+        }
+    }
+    const handleSendClick = () => {
+
     }
 
     return (
@@ -39,7 +74,7 @@ export default () => {
                 
             </div>
 
-            <div className="chatWindow--emojiArea">
+            <div className="chatWindow--emojiArea" style={{height: emojiOpen ? '320px' : '0px'}}>
                 <EmojiPicker 
                     onEmojiClick={handleEmojiClick}
                     disableSkinTonePicker
@@ -48,17 +83,17 @@ export default () => {
 
             <div className="chatWindow--footer">
                 <div className="chatWindow--pre">
-                    <div className="chatWindow--btn">
+                    <div className="chatWindow--btn" onClick={handleCloseEmoji} style={{width: emojiOpen?40:0}}>
                         <CloseIcon style={{color: '#919191'}} />
                     </div>
-                    <div className="chatWindow--btn">
+                    <div className="chatWindow--btn" onClick={handleOpenEmoji}>
+                        <InsertEmoticonIcon style={{color: emojiOpen?'#009688':'#919191'}} />
+                    </div>
+                    <div className="chatWindow--btn" onClick={handleCloseEmoji} style={{width: emojiOpen?40:0}}>
                         <GifIcon style={{color: '#919191'}} />
                     </div>
-                    <div className="chatWindow--btn">
+                    <div className="chatWindow--btn" onClick={handleCloseEmoji} style={{width: emojiOpen?40:0}}>
                         <StickyIcon style={{color: '#919191'}} />
-                    </div>
-                    <div className="chatWindow--btn">
-                        <InsertEmoticon style={{color: '#919191'}} />
                     </div>
                     <div className="chatWindow--btn">
                         <AttachFile style={{color: '#919191'}} />
@@ -69,12 +104,21 @@ export default () => {
                         ype="text" 
                         className="chatWindow--input"
                         placeholder="Mensagem"
+                        value={text}
+                        onChange={e=>setText(e.target.value)}
                     />
                 </div>
                 <div className="chatWindow--pos">
-                    <div className="chatWindow--btn">
-                        <SendIcon style={{color: '#919191'}} />
-                    </div>
+                    {text === '' && 
+                        <div onClick={handleMicClick} className="chatWindow--btn">
+                            <MicIcon style={{color: listening ? '#126ECE' : '#919191'}} />
+                        </div>
+                    }
+                    {text !== '' &&
+                        <div onClick={handleSendClick} className="chatWindow--btn">
+                            <SendIcon style={{color: '#919191'}} />
+                        </div>
+                    }
                 </div>
                 
             </div>
