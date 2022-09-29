@@ -49,7 +49,15 @@
     color: #E5DDD5;
     background-size: cover;
     background-position: top;
-    background-image: url('https://external-preview.redd.it/rEwFriCkfAtjOb5b-23b4tGGVcuvfaBqamYNJrgxnLM.png?auto=webp&s=f3bf0b5c90e4c5fda12ff2139781c854554fd198');
+    padding: 20px 80px;
+    background-image: url('https://images5.alphacoders.com/120/1202241.png');
+}
+.chatWindow--body::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+.chatWindow--body::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .chatWindow--footer {
@@ -77,7 +85,7 @@
 }
 
 .chatWindow--emojiArea {
-    height: 320px;
+    height: 520px;
     overflow-y: hidden;
     transition: all ease 0.3s;
 }
