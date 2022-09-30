@@ -4,19 +4,23 @@ import './NewChat.css'
 import SearchIcon from '@mui/icons-material/Search'
 import ArrowBack from '@mui/icons-material/ArrowBack'
 
-export default () => {
+export default ({user, chatlist, show, setShow}) => {
 
     const [contactList, setContactList] = useState([
         {id: 123, avatar:'https://www.w3schools.com/howto/img_avatar.png', nome: 'Cicero Jr'},
         {id: 123, avatar:'https://www.w3schools.com/howto/img_avatar.png', nome: 'Cicero Jr'},
         {id: 123, avatar:'https://www.w3schools.com/howto/img_avatar.png', nome: 'Cicero Jr'},
         {id: 123, avatar:'https://www.w3schools.com/howto/img_avatar.png', nome: 'Cicero Jr'}
-    ])
+    ]) 
+
+    const handleClose = () => {
+        setShow(false)
+    }
 
     return (
-        <div className='newChat'>
+        <div className='newChat' style={{left: show ? 0 : -450}}>
             <div className='newChat--head'>
-                <div className='newChat--backButton'>
+                <div onClick={handleClose} className='newChat--backButton'>
                     <ArrowBack style={{color: '#FFF'}} />
                 </div>
                 <div className='newChat--headTitle'>Nova Conversa</div>

@@ -12,7 +12,7 @@ body {
     background-color: #EDEDED;
 }
 .sidebar {
-    width: 30%;
+    width: 35%;
     max-width: 450px;
     display: flex;
     flex-direction: column;

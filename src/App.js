@@ -4,6 +4,7 @@ import './App.css'
 import ChatListItem from './components/ChatList'
 import ChatIntro from "./components/ChatIntro"
 import ChatWindow from "./components/ChatWindow"
+import NewChat from "./components/NewChat"
 
 import DonutLargeIcon from '@mui/icons-material/DonutLarge'
 import ChatIcon from '@mui/icons-material/Chat'
@@ -24,17 +25,28 @@ export default () => {
         avatar: 'https://www.w3schools.com/howto/img_avatar.png',
         name: 'Jr'
     })
+    const [showNewChat, setShowNewChat] = useState(false)
+
+    const handleNewChat = () => {
+        setShowNewChat(true)
+    }
 
     return (
         <div className="app-window">
             <div className="sidebar">
+                <NewChat 
+                    chatlist={chatlist} 
+                    user={user} 
+                    show={showNewChat} 
+                    setShow={setShowNewChat} 
+                />
                 <header>
                     <img className="header--avatar" src={user.avatar} alt="foto de perfil" />
                     <div className="header--buttons">
                         <div className="header--btn">
                             <DonutLargeIcon style={{color: '#919191'}} />
                         </div>
-                        <div className="header--btn">
+                        <div onClick={handleNewChat} className="header--btn">
                             <ChatIcon style={{color: '#919191'}} />
                         </div>
                         <div className="header--btn">
