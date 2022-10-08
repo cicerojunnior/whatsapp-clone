@@ -1,5 +1,7 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import './App.css'
+
+import Api from "./Api"
 
 import ChatListItem from './components/ChatList'
 import ChatIntro from "./components/ChatIntro"
@@ -11,18 +13,25 @@ import DonutLargeIcon from '@mui/icons-material/DonutLarge'
 import ChatIcon from '@mui/icons-material/Chat'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import SearchIcon from '@mui/icons-material/Search'
+import { unstable_unsupportedProp } from "@mui/utils"
 
 export default () => {
 
-    const [chatlist, setChatList] = useState([
-        {chatId: 1, title: 'Biiiil', image: 'https://www.w3schools.com/howto/img_avatar.png'},
-        {chatId: 2, title: 'Biiiil', image: 'https://www.w3schools.com/howto/img_avatar.png'},
-        {chatId: 3, title: 'Biiiil', image: 'https://www.w3schools.com/howto/img_avatar.png'},
-        {chatId: 4, title: 'Biiiil', image: 'https://www.w3schools.com/howto/img_avatar.png'},
-    ]);
+    const [chatlist, setChatList] = useState([]);
     const [activeChat, setActiveChat] = useState({})
-    const [user, setUser] = useState(null)
+    const [user, setUser] = useState({
+            id: 'knpZoUoZKeTCogCRzHdXmh7gd2u1',
+            name: 'Cícero Júnior',
+            avatar: 'https://graph.facebook.com/3416114691945085/picture'
+        });
     const [showNewChat, setShowNewChat] = useState(false)
+
+    useEffect(()=>{
+        if(user !== null) {
+            let unsub = Api.onChatList(user.id, setChatList)
+            return unsub
+        }
+    },[user])
 
     const handleNewChat = () => {
         setShowNewChat(true)
@@ -34,6 +43,7 @@ export default () => {
             name: u.displayName,
             avatar: u.photoURL
         }
+        await Api.addUser(newUser)
         setUser(newUser)
     }
 
