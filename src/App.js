@@ -13,17 +13,12 @@ import DonutLargeIcon from '@mui/icons-material/DonutLarge'
 import ChatIcon from '@mui/icons-material/Chat'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import SearchIcon from '@mui/icons-material/Search'
-import { unstable_unsupportedProp } from "@mui/utils"
 
 export default () => {
 
     const [chatlist, setChatList] = useState([]);
     const [activeChat, setActiveChat] = useState({})
-    const [user, setUser] = useState({
-            id: 'knpZoUoZKeTCogCRzHdXmh7gd2u1',
-            name: 'Cícero Júnior',
-            avatar: 'https://graph.facebook.com/3416114691945085/picture'
-        });
+    const [user, setUser] = useState(null);
     const [showNewChat, setShowNewChat] = useState(false)
 
     useEffect(()=>{
@@ -95,7 +90,7 @@ export default () => {
             </div>
             <div className="contentArea">
                 {activeChat.chatId !== undefined &&
-                    <ChatWindow user={user} />
+                    <ChatWindow user={user} data={activeChat} />
                 }
                 {activeChat.chatId === undefined &&
                     <ChatIntro />

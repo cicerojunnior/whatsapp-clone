@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from "react"
 import './ChatWindow.css'
 
+import Api from '../../Api'
+
 import EmojiPicker from "emoji-picker-react"
-import MessageItem from '../MessageItem/index'
+import MessageItem from '../MessageItem/'
 
 import Search from "@mui/icons-material/Search"
 import MoreVert from "@mui/icons-material/MoreVert"
@@ -14,7 +16,7 @@ import MicIcon from '@mui/icons-material/Mic'
 import GifIcon from '@mui/icons-material/GifBox'
 import StickyIcon from '@mui/icons-material/StickyNote2'    
 
-export default ({user}) => {
+export default ({user, data}) => {
 
     const body = useRef()
 
@@ -27,29 +29,14 @@ export default ({user}) => {
     const [emojiOpen, setEmojiOpen] = useState(false)
     const [text, setText] = useState('')
     const [listening, setListening] = useState(false)
-    const [list, setList] = useState([
-        {author: 1, body: 'faaaala doido'}, 
-        {author: 1, body: 'fala'}, 
-        {author: 2, body: 'faaaala doido'},
-        {author: 1, body: 'faaaala doido'}, 
-        {author: 1, body: 'fala'}, 
-        {author: 2, body: 'faaaala doido'},
-        {author: 1, body: 'faaaala doido'}, 
-        {author: 1, body: 'fala'}, 
-        {author: 2, body: 'faaaala doido'},
-        {author: 1, body: 'faaaala doido'}, 
-        {author: 1, body: 'fala'}, 
-        {author: 2, body: 'faaaala doido'},
-        {author: 1, body: 'faaaala doido'}, 
-        {author: 1, body: 'fala'}, 
-        {author: 2, body: 'faaaala doido'},
-        {author: 1, body: 'faaaala doido'}, 
-        {author: 1, body: 'fala'}, 
-        {author: 2, body: 'faaaala doido'},
-        {author: 1, body: 'faaaala doido'}, 
-        {author: 1, body: 'fala'}, 
-        {author: 2, body: 'faaaala doido'}
-    ])
+    const [list, setList] = useState([])
+    const [users, setUsers] = useState([])
+
+    useEffect(()=>{
+        setList([]);
+        let unsub = Api.onChatContent(data.chatId, setList, setUsers)
+        return unsub
+    },[data.chatId])
 
     useEffect(()=>{
         if(body.current.scrollHeight > body.current.offsetHeight) {
@@ -82,16 +69,27 @@ export default ({user}) => {
             recognition.start()
         }
     }
-    const handleSendClick = () => {
 
+    const handleInputKeyUp = (e) => {
+        if(e.keyCode === 13) {
+            handleSendClick()
+        }
+    }
+
+    const handleSendClick = () => {
+        if(text !== '' ) {
+            Api.sendMessage(data, user.id, 'text', text, users)
+            setText('')
+            setEmojiOpen(false)
+        }
     }
 
     return (
         <div className="chatWindow">
             <div className="chatWindow--header">
                 <div className="chatWindow--headerInfo">
-                    <img className="chatWindow--avatar" src="https://www.w3schools.com/howto/img_avatar.png" alt="" />
-                    <div className="chatWindow--name">Cícero Júnior</div>
+                    <img className="chatWindow--avatar" src={data.image} alt="" />
+                    <div className="chatWindow--name">{data.title}</div>
                 </div>
                 <div className="chatWindow--headerButtons">
                     <div className="chatWindow--btn">
@@ -140,11 +138,12 @@ export default ({user}) => {
                 </div>
                 <div className="chatWindow--inputArea">
                     <input 
-                        ype="text" 
+                        type="text" 
                         className="chatWindow--input"
                         placeholder="Mensagem"
                         value={text}
                         onChange={e=>setText(e.target.value)}
+                        onKeyUp={handleInputKeyUp}
                     />
                 </div>
                 <div className="chatWindow--pos">

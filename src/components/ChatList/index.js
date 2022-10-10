@@ -7,7 +7,7 @@ export default ({onClick, active, data}) => {
 
     useEffect(()=>{
         if(data.lastMessageDate > 0) {
-            let d= new Date(data.lastMessageDate.seconds * 10000)
+            let d= new Date(data.lastMessageDate.seconds * 1000)
             let hours = d.getHours()
             let minutes = d.getMinutes()
             hours = hours < 10 ? '0' + hours : hours
